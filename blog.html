@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Write a Blog Post</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@700&display=swap" rel="stylesheet">
+  <style>
+    .img-arrow-fade-left {
+      left: 0;
+      right: auto;
+      width: 18%;
+      min-width: 36px;
+      max-width: 80px;
+      border-top-left-radius: 1vw;
+      border-bottom-left-radius: 1vw;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      flex-direction: row-reverse;
+      background: none;
+    }
+    .img-arrow-fade-left .img-arrow-svg {
+      left: 1vw;
+      right: auto;
+    }
+    .img-arrow-fade-left:hover,
+    .img-arrow-fade-left:focus-within {
+      opacity: 1;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      color: #333;
+      min-height: 100vh;
+      min-width: 100vw;
+      position: relative;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .background-img {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 0;
+      opacity: 1;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .blog-editor-container {
+      margin-top: 4vw;
+      background: #fff;
+      border-radius: 1vw;
+      border: 2.5px solid #b6ffd6;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1.5px 4px rgba(0,0,0,0.04);
+      padding: 2vw 2vw 2vw 2vw;
+      max-width: 600px;
+      width: 90vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 2;
+      position: relative;
+    }
+    .blog-editor-title {
+      font-family: 'Tangerine', cursive;
+      font-size: 2.8em;
+      font-weight: 700;
+      color: #3a3a3a;
+      margin-bottom: 1vw;
+      letter-spacing: 0.03em;
+    }
+    .blog-image-wrapper {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 2vw;
+      max-width: 100%;
+    }
+    .blog-editor-container img {
+      max-width: 100%;
+      max-height: 250px;
+      border-radius: 1vw;
+      margin-bottom: 0;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+      z-index: 2;
+      position: relative;
+      display: block;
+      transition: filter 0.2s;
+      vertical-align: middle;
+    }
+    .img-arrow-fade {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 18%;
+      min-width: 36px;
+      max-width: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      z-index: 3;
+      opacity: 0;
+      transition: opacity 0.25s;
+      border-top-right-radius: 1vw;
+      border-bottom-right-radius: 1vw;
+      overflow: hidden;
+      cursor: pointer;
+      background: none;
+    }
+    .img-arrow-svg {
+      position: relative;
+      right: 1vw;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .img-arrow-svg svg {
+      width: 2.2em;
+      height: 2.2em;
+      opacity: 0.85;
+      filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 8px #000);
+    }
+    .img-arrow-fade:hover,
+    .img-arrow-fade:focus-within {
+      opacity: 1;
+    }
+    }
+    .blog-editor-container input[type="text"] {
+      width: 100%;
+      font-size: 1.2em;
+      padding: 0.7em;
+      margin-bottom: 1.2em;
+      border-radius: 0.5em;
+      border: 1.5px solid #b6ffd6;
+      outline: none;
+      font-family: inherit;
+    }
+    .blog-editor-container textarea {
+      width: 100%;
+      min-height: 180px;
+      font-size: 1em;
+      padding: 0.7em;
+      border-radius: 0.5em;
+      border: 1.5px solid #b6ffd6;
+      outline: none;
+      font-family: inherit;
+      margin-bottom: 1.2em;
+      resize: vertical;
+    }
+    .blog-editor-container button {
+      background: #b6ffd6;
+      color: #222;
+      border: none;
+      border-radius: 0.5em;
+      padding: 0.7em 2em;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .blog-editor-container button:hover {
+      background: #98ff98;
+    }
+    .blog-editor-title {
+      font-family: 'Tangerine', cursive;
+      font-size: 2.2em;
+      margin-bottom: 1vw;
+      color: #222;
+    }
+  </style>
+</head>
+<body>
+  <img id="background-img" class="background-img" src="" alt="Background" style="display:none;" />
+  <div class="blog-editor-container">
+    <h1 class="blog-editor-title" id="blog-main-heading">Write a Blog Post</h1>
+    <div class="blog-image-wrapper">
+      <div class="img-arrow-fade img-arrow-fade-left" id="img-arrow-fade-left" style="display:none; cursor:pointer;" tabindex="0" aria-label="Previous image">
+        <div class="img-arrow-svg">
+          <svg viewBox="0 0 32 32"><path d="M20 6l-8 10 8 10" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </div>
+      </div>
+      <div class="blog-image-slider" id="blog-image-slider">
+        <img id="blog-image" src="" alt="Blog Visual" style="display:none;" />
+      </div>
+      <div class="img-arrow-fade" id="img-arrow-fade" style="display:none; cursor:pointer;" tabindex="0" aria-label="Next image">
+        <div class="img-arrow-svg">
+          <svg viewBox="0 0 32 32"><path d="M12 6l8 10-8 10" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </div>
+      </div>
+    </div>
+    <!-- Removed stray CSS from body -->
+    <input type="text" id="blog-title" placeholder="Blog Title" />
+    <textarea id="blog-content" placeholder="Write your blog post here..."></textarea>
+    <button onclick="saveBlog()">Save</button>
+  </div>
+  <script>
+    // Show image if passed in query string and set as background
+    function getQueryParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+    const imgSrc = getQueryParam('img');
+    // Florida Project images
+    const floridaProjectMain = 'https://static01.nyt.com/images/2018/01/25/arts/florida-anatomy/florida-anatomy-superJumbo.jpg';
+    const floridaProjectImages = [
+      'https://static01.nyt.com/images/2018/01/25/arts/florida-anatomy/florida-anatomy-superJumbo.jpg',
+      'https://wallpapercave.com/wp/wp2336080.jpg',
+      'https://wallpapercave.com/wp/wp2336091.jpg',
+      'https://wallpapercave.com/wp/wp2336094.jpg',
+      'https://wallpapercave.com/wp/wp2336119.jpg'
+    ];
+    // Midsummer blog image src (replace with your actual Midsummer image URL)
+    const midsummerImg = 'https://wallpapercave.com/wp/wp2336091.jpg';
+    let floridaIndex = 0;
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get affirmation text from query string (e.g., ?affirmation=You+are+amazing)
+      const affirmation = getQueryParam('affirmation');
+      // Set affirmation as blog title if present
+      if (affirmation) {
+        document.getElementById('blog-title').value = affirmation;
+      }
+      // If this is the Midsummer blog, change the main heading
+      if (imgSrc === midsummerImg) {
+        document.getElementById('blog-main-heading').textContent = 'Fantastic use of color.';
+      }
+      if (imgSrc === floridaProjectMain) {
+        // Florida Project: enable slider
+        showFloridaImage(floridaIndex);
+        // Show both arrow overlays
+        const fadeRight = document.getElementById('img-arrow-fade');
+        const fadeLeft = document.getElementById('img-arrow-fade-left');
+        fadeRight.style.display = 'flex';
+        fadeLeft.style.display = 'flex';
+        // Right arrow click handler
+        fadeRight.onclick = function() {
+          const prev = floridaIndex;
+          floridaIndex = (floridaIndex + 1) % floridaProjectImages.length;
+          // Animate out old, in new
+          const slider = document.getElementById('blog-image-slider');
+          const oldImg = slider.querySelector('img');
+          if (oldImg) {
+            oldImg.classList.add('slide-out-left');
+            setTimeout(() => {
+              showFloridaImage(floridaIndex, 'right');
+            }, 400);
+          } else {
+            showFloridaImage(floridaIndex);
+          }
+        };
+        // Left arrow click handler
+        fadeLeft.onclick = function() {
+          const prev = floridaIndex;
+          floridaIndex = (floridaIndex - 1 + floridaProjectImages.length) % floridaProjectImages.length;
+          // Animate out old, in new
+          const slider = document.getElementById('blog-image-slider');
+          const oldImg = slider.querySelector('img');
+          if (oldImg) {
+            oldImg.classList.add('slide-in-right');
+            setTimeout(() => {
+              showFloridaImage(floridaIndex, 'left');
+            }, 400);
+          } else {
+            showFloridaImage(floridaIndex);
+          }
+        };
+        // Keyboard accessibility
+        fadeRight.onkeydown = function(e) {
+          if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight') fadeRight.onclick();
+        };
+        fadeLeft.onkeydown = function(e) {
+          if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowLeft') fadeLeft.onclick();
+        };
+        fadeRight.tabIndex = 0;
+        fadeLeft.tabIndex = 0;
+      } else if (imgSrc) {
+        // All other blogs: show single image and both arrows
+        const img = document.getElementById('blog-image');
+        img.src = imgSrc;
+        img.style.display = 'block';
+        // Show both arrow overlays
+        const fade = document.getElementById('img-arrow-fade');
+        const fadeLeft = document.getElementById('img-arrow-fade-left');
+        fade.style.display = 'flex';
+        fadeLeft.style.display = 'flex';
+        // Optionally, you can add click handlers for left/right arrows here if you want navigation for all blogs
+        // Set as background
+        const bg = document.getElementById('background-img');
+        bg.src = imgSrc;
+        bg.style.display = 'block';
+      }
+    });
+    function showFloridaImage(idx, direction) {
+      const slider = document.getElementById('blog-image-slider');
+      // Remove old images
+      while (slider.firstChild) slider.removeChild(slider.firstChild);
+      // Create new img
+      const img = document.createElement('img');
+      img.id = 'blog-image';
+      img.alt = 'Blog Visual';
+      img.src = floridaProjectImages[idx];
+      img.style.display = 'block';
+      img.classList.add('slide-active');
+      slider.appendChild(img);
+      // Animate if direction
+      if (typeof direction === 'string') {
+        img.classList.add(direction === 'right' ? 'slide-in-right' : 'slide-out-left');
+        setTimeout(() => {
+          img.classList.remove('slide-in-right', 'slide-out-left');
+        }, 20);
+      }
+      // Set as background
+      const bg = document.getElementById('background-img');
+      bg.src = floridaProjectImages[idx];
+      bg.style.display = 'block';
+    }
+    function saveBlog() {
+      const title = document.getElementById('blog-title').value.trim();
+      const content = document.getElementById('blog-content').value.trim();
+      if (!title || !content) {
+        alert('Please enter a title and content.');
+        return;
+      }
+      alert('Blog saved! (This is a demo. Saving to server/local storage is not implemented.)');
+    }
+  </script>
+</body>
+</html>
